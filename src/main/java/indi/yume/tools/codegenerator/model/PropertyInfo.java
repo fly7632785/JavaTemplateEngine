@@ -35,7 +35,7 @@ public class PropertyInfo extends BaseInfo {
             String[] ss = note.split("\n");
             stringBuilder.append(newline.getPrefix() + "/**\n");
             for (int i = 0; i < ss.length; i++) {
-                stringBuilder.append(newline.getPrefix() + "* " + ss[i]+"\n");
+                stringBuilder.append(newline.getPrefix() + "* " + ss[i] + "\n");
             }
             stringBuilder.append(newline.getPrefix() + "*/\n");
         }
@@ -43,7 +43,11 @@ public class PropertyInfo extends BaseInfo {
                 + newline.getPrefix()
                 + mod
                 + clazzInfo.toString()
-                + " " + name + " = " + body);
+                + " " + name);
+
+        if (body != null && !body.isEmpty()) {
+            stringBuilder.append(" = " + body);
+        }
 
         return stringBuilder.toString();
     }
