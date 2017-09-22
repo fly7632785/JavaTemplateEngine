@@ -1,4 +1,4 @@
-<classMaker classVarName="fragment">
+<classMaker classVarName="fragment" modifier="abstract">
     <extends classVarName="baseFragment"/>
     <implements classVarName="presenterGetInterface"/>
 
@@ -6,11 +6,28 @@
 
     <property valueName="presenter"
               classVarName="presenter"
-              modifier="private">
+             >
         <anno classVarName="inject"/>
     </property>
+    <property valueName="presenter1"
+              classVarName="presenter"
+              modifier="public">
+    </property>
+    <property valueName="presenter2"
+              classVarName="presenter"
+              modifier="protected">
+        </property>
 
-    <method returnClassName="void" methodName="onCreateView">
+    <property valueName="presenter3"
+              classVarName="presenter"
+              modifier="private">
+    </property>
+    <property valueName="presenter3"
+              classVarName="presenter"
+              modifier="private#volatile">
+    </property>
+
+    <method returnClassName="void" methodName="onCreateView" modifier="public">
         <anno classVarName="override"/>
 
         <methodParam classVarName="bundle" valueName="savedInstanceState"/>
@@ -23,7 +40,7 @@
         </body>
     </method>
 
-    <method returnClassName="void" methodName="inject">
+    <method returnClassName="void" methodName="inject" modifier="public">
         <anno classVarName="override"/>
 
         <methodParam classVarName="appComponent" valueName="appComponent"/>
@@ -38,6 +55,29 @@
             .build();\n
             homeComponent.inject${type}(this);\n
             homeComponent.injectPresenter(presenter);
+        </body>
+    </method>
+    <method returnClassName="intent" methodName="createIntent" modifier="private#static">
+
+        <methodParam classVarName="context" valueName="context"/>
+        <body>
+            return new Intent(context,  ${name}Activity.class);
+        </body>
+    </method>
+    <method returnClassName="intent" methodName="createIntent1" modifier="static">
+
+        <methodParam classVarName="context" valueName="context"/>
+        <body>
+            return new Intent(context,  ${name}Activity.class);
+        </body>
+    </method>
+    <method returnClassName="intent" methodName="createIntent2" modifier="abstract">
+    </method>
+
+    <method returnClassName="intent" methodName="createIntent3" modifier="private#static#final#synchronized">
+        <methodParam classVarName="context" valueName="context"/>
+        <body>
+            return new Intent(context,  ${name}Activity.class);
         </body>
     </method>
 </classMaker>

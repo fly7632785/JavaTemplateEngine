@@ -1,0 +1,6 @@
+<classMaker classVarName="fragment" modifier="abstract">
+
+    <method returnClassName="intent" methodName="test" modifier="abstract">
+        <methodParam classVarName="context" valueName="context"/>
+    </method>
+</classMaker>

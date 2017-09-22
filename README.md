@@ -8,6 +8,10 @@ Simple Java code TemplateEngine, use xml.
 3. 包含一个格式化引擎，通过语法分析进行自动代码格式化。
 4. 通过配置文件定义待使用类。
 
+## Fork2.0.5后更新：
+1.修正modifier支持
+2.修正abstract支持
+
 ## 使用方法
 
 Demo：indi.yume.daggergenerator.example.Test11.java

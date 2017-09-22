@@ -1,10 +1,10 @@
 package indi.yume.tools.codegenerator.model;
 
-import indi.yume.tools.codegenerator.generator.NewLine;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import indi.yume.tools.codegenerator.generator.NewLine;
 
 /**
  * Created by yume on 15/9/26.
@@ -24,27 +24,27 @@ public class MethodInfo extends BaseInfo {
         this.type = type;
         this.returnClazz = returnClazz;
         this.methodName = methodName;
-        if(params != null)
+        if (params != null)
             this.params = params;
 
-        if(returnClazz != null)
+        if (returnClazz != null)
             importClazz.add(returnClazz);
 
-        for(ParamInfo pi : params)
+        for (ParamInfo pi : params)
             importClazz.add(pi.getClazzInfo());
     }
 
     public MethodInfo(ClazzInfo returnClazz, String methodName, ParamInfo[] params) {
         this.returnClazz = returnClazz;
         this.methodName = methodName;
-        if(params != null && params.length != 0)
+        if (params != null && params.length != 0)
             this.params = params;
 
-        if(returnClazz != null)
+        if (returnClazz != null)
             importClazz.add(returnClazz);
 
-        if(params != null && params.length != 0)
-            for(ParamInfo pi : params)
+        if (params != null && params.length != 0)
+            for (ParamInfo pi : params)
                 importClazz.add(pi.getClazzInfo());
     }
 
@@ -63,6 +63,9 @@ public class MethodInfo extends BaseInfo {
 
     public void setModifierInfo(ModifierInfo modifierInfo) {
         this.modifierInfo = modifierInfo;
+        if(modifierInfo.getModifier().contains(Type.ABSTRACT.get())){
+            this.type = Type.ABSTRACT;
+        }
     }
 
     public ClazzInfo getReturnClazz() {
@@ -86,13 +89,13 @@ public class MethodInfo extends BaseInfo {
         Collections.addAll(this.importClazz, importClazz);
     }
 
-    public String toString(NewLine newline){
+    public String toString(NewLine newline) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(generatorAnnotation(newline))
                 .append(newline.getPrefix())
                 .append(modifierInfo.toString());
 
-        if(returnClazz != null)
+        if (returnClazz != null)
             stringBuilder.append(" ")
                     .append(returnClazz.toString());
 
@@ -100,7 +103,7 @@ public class MethodInfo extends BaseInfo {
                 .append(methodName)
                 .append("(");
 
-        if(params.length > 0) {
+        if (params.length > 0) {
             for (ParamInfo pi : params)
                 stringBuilder.append(pi.toString())
                         .append(", ");
@@ -108,7 +111,7 @@ public class MethodInfo extends BaseInfo {
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
         }
 
-        if(type == Type.INTERFACE){
+        if (type == Type.INTERFACE || type == Type.ABSTRACT) {
             stringBuilder.append(");\n");
         } else {
             stringBuilder.append("){\n");
@@ -130,12 +133,12 @@ public class MethodInfo extends BaseInfo {
     @Override
     public List<String> getImportClazz() {
         List<String> list = new ArrayList<>();
-        for(ClazzInfo ci : importClazz)
+        for (ClazzInfo ci : importClazz)
             list.addAll(ci.getImportClazz());
         return getAnnoImportClazz(list);
     }
 
-    public static class ParamInfo{
+    public static class ParamInfo {
         private ClazzInfo clazzInfo;
         private String name;
 
@@ -145,7 +148,7 @@ public class MethodInfo extends BaseInfo {
         }
 
         @Override
-        public String toString(){
+        public String toString() {
             return clazzInfo.toString() + " " + name;
         }
 

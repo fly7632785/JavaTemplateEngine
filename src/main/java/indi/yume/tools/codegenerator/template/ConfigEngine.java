@@ -1,9 +1,5 @@
 package indi.yume.tools.codegenerator.template;
 
-import indi.yume.tools.codegenerator.model.AnnotationInfo;
-import indi.yume.tools.codegenerator.model.ClazzInfo;
-import indi.yume.tools.codegenerator.model.InnerClazzInfo;
-import indi.yume.tools.codegenerator.model.Type;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,6 +11,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import indi.yume.tools.codegenerator.model.AnnotationInfo;
+import indi.yume.tools.codegenerator.model.ClazzInfo;
+import indi.yume.tools.codegenerator.model.InnerClazzInfo;
+import indi.yume.tools.codegenerator.model.Type;
 
 /**
  * Created by yume on 15/11/24.

@@ -8,19 +8,26 @@ import java.lang.reflect.Modifier;
 public class ModifierInfo {
     private int modifier = 0;
 
-    public ModifierInfo(){
-        resetModifier();
+    public ModifierInfo() {
     }
 
-    public ModifierInfo(int mod){
+    public ModifierInfo(int mod) {
         setModifier(mod);
     }
 
-    public void setModifier(int mod){
-        modifier = modifier | mod;
+    public void setModifier(int mod) {
+        modifier = mod;
+//        openDefaultPublic(mod);
+
     }
 
-    public String getModifier(){
+    private void openDefaultPublic(int mod) {
+        if (!Modifier.isPrivate(mod) && !Modifier.isProtected(mod)) {
+            modifier = mod | Modifier.PUBLIC;
+        }
+    }
+
+    public String getModifier() {
         return Modifier.toString(modifier);
     }
 

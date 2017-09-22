@@ -10,6 +10,7 @@
     <class name="supportV4Fragment" packageName="android.support.v4.app" className="Fragment"/>
     <class name="activity" packageName="android.app" className="Activity"/>
     <class name="view" packageName="android.view" className="View"/>
+    <class name="intent" packageName="android.content" className="Intent"/>
     <class name="void" packageName="" className="void"/>
     <class name="context" packageName="android.content" className="Context"/>
     <class name="butterknife" packageName="butterknife" className="ButterKnife"/>

@@ -10,6 +10,12 @@ public enum Type {
             return "class";
         }
     },
+    ABSTRACT {
+        @Override
+        public String get() {
+            return "abstract";
+        }
+    },
     INTERFACE {
         @Override
         public String get() {

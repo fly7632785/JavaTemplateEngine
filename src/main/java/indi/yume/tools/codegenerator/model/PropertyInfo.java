@@ -1,13 +1,13 @@
 package indi.yume.tools.codegenerator.model;
 
-import indi.yume.tools.codegenerator.generator.NewLine;
-
 import java.util.List;
+
+import indi.yume.tools.codegenerator.generator.NewLine;
 
 /**
  * Created by yume on 15/9/26.
  */
-public class PropertyInfo extends BaseInfo{
+public class PropertyInfo extends BaseInfo {
     private ModifierInfo modifier = new ModifierInfo(0);
     private ClazzInfo clazzInfo;
     private String name;

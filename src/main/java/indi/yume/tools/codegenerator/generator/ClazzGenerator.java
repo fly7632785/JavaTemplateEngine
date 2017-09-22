@@ -1,8 +1,17 @@
 package indi.yume.tools.codegenerator.generator;
 
-import indi.yume.tools.codegenerator.model.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
-import java.util.*;
+import indi.yume.tools.codegenerator.model.AnnotationInfo;
+import indi.yume.tools.codegenerator.model.ClazzInfo;
+import indi.yume.tools.codegenerator.model.ImportInfo;
+import indi.yume.tools.codegenerator.model.MethodInfo;
+import indi.yume.tools.codegenerator.model.PropertyInfo;
 
 /**
  * Created by yume on 15/9/26.
@@ -50,7 +59,6 @@ public class ClazzGenerator {
     }
 
     public void addMethod(MethodInfo method){
-        method.setType(baseClazzInfo.getType());
         methodList.add(method);
     }
 
@@ -132,9 +140,11 @@ public class ClazzGenerator {
     }
 
     private StringBuilder generatorNote(StringBuilder stringBuilder, NewLine newLine){
-        stringBuilder.append("\n")
-                .append(note)
-                .append("\n");
+        if(note != null) {
+            stringBuilder.append("\n")
+                    .append(note)
+                    .append("\n");
+        }
         return stringBuilder;
     }
 

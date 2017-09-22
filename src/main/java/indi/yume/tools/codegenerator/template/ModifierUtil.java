@@ -9,8 +9,9 @@ public class ModifierUtil {
     public static int analysisModifier(String modifierList){
         int modSum = 0;
         if(modifierList != null && !"".equals(modifierList)){
-            String[] mods = modifierList.split("|");
-            for(String mod : mods)
+//            String[] mods = modifierList.split("|");
+            String[] test = modifierList.split("#");
+            for(String mod : test)
                 modSum = modSum | addModifier(mod);
         }
         return modSum;

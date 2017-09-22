@@ -1,7 +1,5 @@
 package indi.yume.tools.codegenerator.template;
 
-import indi.yume.tools.codegenerator.generator.ClazzGenerator;
-import indi.yume.tools.codegenerator.model.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -10,7 +8,17 @@ import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import indi.yume.tools.codegenerator.generator.ClazzGenerator;
+import indi.yume.tools.codegenerator.model.AnnotationInfo;
+import indi.yume.tools.codegenerator.model.ClazzInfo;
+import indi.yume.tools.codegenerator.model.MethodBodyGenerator;
+import indi.yume.tools.codegenerator.model.MethodInfo;
+import indi.yume.tools.codegenerator.model.ModifierInfo;
+import indi.yume.tools.codegenerator.model.PropertyInfo;
+import indi.yume.tools.codegenerator.model.Type;
 
 /**
  * Created by yume on 15/11/23.
@@ -47,7 +55,12 @@ public class TemplateEngine {
 
         for(AnnotationInfo anno : getAnno(classMakerElement))
             clazzGenerator.addAnnotation(anno);
-
+        if(classMakerElement.hasAttr(ClassMakerKey.MODIFIER))
+            baseClazzInfo.
+                    setModifierInfo(new ModifierInfo(  ModifierUtil
+                            .analysisModifier(
+                                    varStringEngine.analysisString(
+                                            classMakerElement.attr(ClassMakerKey.MODIFIER)))));
         getNote(clazzGenerator, classMakerElement);
         getProperty(clazzGenerator, classMakerElement);
         getMethod(clazzGenerator, classMakerElement);
@@ -92,13 +105,10 @@ public class TemplateEngine {
 
         if(classMaker.hasAttr(ClassMakerKey.MODIFIER))
             baseClazzInfo.
-                    getModifierInfo()
-                    .setModifier(
-                            ModifierUtil
-                                    .analysisModifier(
-                                            varStringEngine.analysisString(
-                                                    classMaker.attr(ClassMakerKey.MODIFIER))));
-
+                    setModifierInfo(new ModifierInfo( ModifierUtil
+                            .analysisModifier(
+                                    varStringEngine.analysisString(
+                                            classMaker.attr(ClassMakerKey.MODIFIER)))));
         return baseClazzInfo;
     }
 
@@ -167,7 +177,11 @@ public class TemplateEngine {
 
             for(AnnotationInfo anno : getAnno(propertyEle))
                 propertyInfo.addAnnotation(anno);
-
+            if(propertyEle.hasAttr(ClassMakerKey.PROPERTY.MODIFIER_ATTR)) {
+                String modifier = varStringEngine.analysisString(
+                        propertyEle.attr(ClassMakerKey.PROPERTY.MODIFIER_ATTR));
+                propertyInfo.getModifier().setModifier(ModifierUtil.analysisModifier(modifier));
+            }
             clazzGenerator.addProperty(propertyInfo);
         }
     }
@@ -232,9 +246,8 @@ public class TemplateEngine {
             if(method.hasAttr(ClassMakerKey.METHOD.MODIFIER_ATTR)) {
                 String modifier = varStringEngine.analysisString(
                         method.attr(ClassMakerKey.METHOD.MODIFIER_ATTR));
-                methodInfo.getModifierInfo().setModifier(ModifierUtil.analysisModifier(modifier));
+                methodInfo.setModifierInfo(new ModifierInfo(ModifierUtil.analysisModifier(modifier)));
             }
-
             clazzGenerator.addMethod(methodInfo);
         }
     }

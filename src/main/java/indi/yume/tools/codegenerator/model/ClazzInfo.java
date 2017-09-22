@@ -1,14 +1,14 @@
 package indi.yume.tools.codegenerator.model;
 
-import indi.yume.tools.codegenerator.generator.NewLine;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import indi.yume.tools.codegenerator.generator.NewLine;
 
 /**
  * Created by yume on 15/9/26.
  */
-public class ClazzInfo extends BaseInfo{
+public class ClazzInfo extends BaseInfo {
     protected ModifierInfo modifierInfo = new ModifierInfo();
     protected Type type;
     protected String packageName;

@@ -1,13 +1,13 @@
 package indi.yume.tools.codegenerator.example;
 
-import indi.yume.tools.codegenerator.generator.ClazzGenerator;
-import indi.yume.tools.codegenerator.template.TemplateEngine;
-import indi.yume.tools.codegenerator.template.VarStringEngine;
-
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import indi.yume.tools.codegenerator.generator.ClazzGenerator;
+import indi.yume.tools.codegenerator.template.TemplateEngine;
+import indi.yume.tools.codegenerator.template.VarStringEngine;
 
 /**
  * Created by yume on 15/11/24.
@@ -32,10 +32,13 @@ public class Test11 {
         varStringEngine.binding("type", "Activity");
         try {
             File baseFile = new File("");
-            TemplateEngine templateEngine = new TemplateEngine(new File(baseFile.getAbsoluteFile() + "/src/indi/yume/tools/codegenerator/example/config.xml"), varStringEngine);
-            ClazzGenerator generator = templateEngine.setTemplateFile(new File(baseFile.getAbsoluteFile() + "/src/indi/yume/tools/codegenerator/example/activity.xml"));
+            TemplateEngine templateEngine = new TemplateEngine(new File(baseFile.getAbsoluteFile() + "/src/main/java/indi/yume/tools/codegenerator/example/config.xml"), varStringEngine);
+            ClazzGenerator generator = templateEngine.setTemplateFile(new File(baseFile.getAbsoluteFile() + "/src/main/java/indi/yume/tools/codegenerator/example/activity.xml"));
             String content = generator.render();
             System.out.println(content);
+//            ClazzGenerator generator1 = templateEngine.setTemplateFile(new File(baseFile.getAbsoluteFile() + "/src/main/java/indi/yume/tools/codegenerator/example/abstract.xml"));
+//            String content1 = generator1.render();
+//            System.out.println(content1);
         } catch (Exception e) {
             e.printStackTrace();
         }
