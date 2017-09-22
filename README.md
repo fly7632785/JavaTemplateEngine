@@ -308,3 +308,12 @@ String string = varStringEngine.analysisString(oriString); // "hello, test_Test"
 ```java
 StringContentEngine.generateString(String startString, String tabString, String content);
 ```
+
+### Import
+```
+compile 'com.github.fly7632785:JavaTemplateEngine:2.0.7'
+repositories {
+        maven { url 'https://jitpack.io' }
+    }
+
+```
