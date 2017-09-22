@@ -39,6 +39,11 @@ public interface ClassMakerKey {
         String VALUE_NAME_ATTR = "valueName";
         String MODIFIER_ATTR = "modifier";
         String BODY = "body";
+
+        interface NOTE {
+            String KEY = "note";
+        }
+
     }
 
     interface ANNO {
@@ -74,6 +79,10 @@ public interface ClassMakerKey {
 
             String CLASS_VAR_NAME_ATTR = "classVarName";
             String VALUE_NAME_ATTR = "valueName";
+        }
+
+        interface NOTE {
+            String KEY = "note";
         }
 
         interface BODY {

@@ -27,7 +27,7 @@ public class Test11 {
         varStringEngine.binding("name", "A09_1_TestTest");
 
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-        varStringEngine.binding("note", "Created by DaggerGenerator on " + df.format(Calendar.getInstance().getTime()) + ".");
+        varStringEngine.binding("note", "Created by DaggerGenerator on " + df.format(Calendar.getInstance().getTime()) + ".\ntest");
 
         varStringEngine.binding("type", "Activity");
         try {

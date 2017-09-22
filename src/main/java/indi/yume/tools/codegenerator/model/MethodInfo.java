@@ -19,6 +19,7 @@ public class MethodInfo extends BaseInfo {
     private String methodName;
     private ParamInfo[] params = new ParamInfo[]{};
     private MethodBodyGenerator methodBodyGenerator;
+    private String note;
 
     public MethodInfo(Type type, ClazzInfo returnClazz, String methodName, ParamInfo[] params) {
         this.type = type;
@@ -63,9 +64,17 @@ public class MethodInfo extends BaseInfo {
 
     public void setModifierInfo(ModifierInfo modifierInfo) {
         this.modifierInfo = modifierInfo;
-        if(modifierInfo.getModifier().contains(Type.ABSTRACT.get())){
+        if (modifierInfo.getModifier().contains(Type.ABSTRACT.get())) {
             this.type = Type.ABSTRACT;
         }
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public ClazzInfo getReturnClazz() {

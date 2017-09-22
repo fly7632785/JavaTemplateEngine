@@ -8,10 +8,15 @@ Simple Java code TemplateEngine, use xml.
 3. 包含一个格式化引擎，通过语法分析进行自动代码格式化。
 4. 通过配置文件定义待使用类。
 
-## Fork2.0.5后更新：
+## 申明：2.0.5是fork自[Yumenokanata](https://github.com/Yumenokanata/JavaTemplateEngine)
+
+## 2.0.6：
 1.修正modifier支持
 2.修正abstract支持
 3.增加field的值
+
+## 2.0.7
+增加支持成员变量、内部类、方法的注释
 
 ## 使用方法
 

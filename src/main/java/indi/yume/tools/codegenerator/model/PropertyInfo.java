@@ -12,6 +12,7 @@ public class PropertyInfo extends BaseInfo {
     private ClazzInfo clazzInfo;
     private String name;
     private String body;
+    private String note;
 
     public PropertyInfo(ClazzInfo clazzInfo, String name) {
         this.clazzInfo = clazzInfo;
@@ -28,11 +29,31 @@ public class PropertyInfo extends BaseInfo {
         String mod = modifier.toString();
         if (!"".equals(mod))
             mod += " ";
-        return generatorAnnotation(newline)
+        StringBuilder stringBuilder = new StringBuilder();
+        if (note != null && !note.isEmpty()) {
+            note = note.replace("\\n", "\n");
+            String[] ss = note.split("\n");
+            stringBuilder.append(newline.getPrefix() + "/**\n");
+            for (int i = 0; i < ss.length; i++) {
+                stringBuilder.append(newline.getPrefix() + "* " + ss[i]+"\n");
+            }
+            stringBuilder.append(newline.getPrefix() + "*/\n");
+        }
+        stringBuilder.append(generatorAnnotation(newline)
                 + newline.getPrefix()
                 + mod
                 + clazzInfo.toString()
-                + " " + name + " = " + body;
+                + " " + name + " = " + body);
+
+        return stringBuilder.toString();
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public String getBody() {

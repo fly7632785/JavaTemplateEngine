@@ -1,53 +1,40 @@
 <classMaker classVarName="fragment" modifier="abstract">
-    <extends classVarName="baseFragment"/>
-    <implements classVarName="presenterGetInterface"/>
+    <extends classVarName="baseFragment" />
+    <implements classVarName="presenterGetInterface" />
 
     <note>${note}</note>
 
-    <property valueName="presenter"
-              classVarName="presenter"
-             >
-        <anno classVarName="inject"/>
+    <property classVarName="presenter" valueName="presenter">
+        <anno classVarName="inject" />
     </property>
-    <property valueName="presenter1"
-              classVarName="presenter"
-              modifier="public">
-    </property>
-    <property valueName="presenter2"
-              classVarName="presenter"
-              modifier="protected">
-        </property>
+    <property classVarName="presenter" modifier="public" valueName="presenter1"></property>
+    <property classVarName="presenter" modifier="protected" valueName="presenter2"></property>
 
-    <property valueName="presenter3"
-              classVarName="presenter"
-              modifier="private">
+    <property classVarName="presenter" modifier="private" valueName="presenter3"></property>
+    <property classVarName="presenter" modifier="private#volatile" valueName="presenter4">
+        <note>
+            sadfsdfs\ndafasdfasdfdafd\nadsfasdf
+        </note>
     </property>
-    <property valueName="presenter4"
-              classVarName="presenter"
-              modifier="private#volatile">
-    </property>
-    <property valueName="CONSTANT"
-                classVarName="string"
-              modifier="public#static#final">
+    <property classVarName="string" modifier="public#static#final" valueName="CONSTANT">
         <body>
             "constan_value"
         </body>
     </property>
 
-    <property valueName="atomicInteger"
-                classVarName="atomicInteger"
-              modifier="private">
+    <property classVarName="atomicInteger" modifier="private" valueName="atomicInteger">
         <body>
             new AtomicInteger(1)
         </body>
+
     </property>
 
-    <method returnClassName="void" methodName="onCreateView" modifier="public">
-        <anno classVarName="override"/>
+    <method methodName="onCreateView" modifier="public" returnClassName="void">
+        <anno classVarName="override" />
 
-        <methodParam classVarName="bundle" valueName="savedInstanceState"/>
+        <methodParam classVarName="bundle" valueName="savedInstanceState" />
 
-        <include classVarName="R"/>
+        <include classVarName="R" />
         <body>
             setContentView(R.layout.${_-name}_fragment);\n
             super.onCreate(savedInstanceState);\n
@@ -55,14 +42,14 @@
         </body>
     </method>
 
-    <method returnClassName="void" methodName="inject" modifier="public">
-        <anno classVarName="override"/>
+    <method methodName="inject" modifier="public" returnClassName="void">
+        <anno classVarName="override" />
 
-        <methodParam classVarName="appComponent" valueName="appComponent"/>
+        <methodParam classVarName="appComponent" valueName="appComponent" />
 
-        <include classVarName="dagger"/>
-        <include classVarName="module"/>
-        <include classVarName="component"/>
+        <include classVarName="dagger" />
+        <include classVarName="module" />
+        <include classVarName="component" />
         <body>
             ${name}Component homeComponent = Dagger${name}Component.builder()\n
             .appComponent(appComponent)\n
@@ -72,27 +59,130 @@
             homeComponent.injectPresenter(presenter);
         </body>
     </method>
-    <method returnClassName="intent" methodName="createIntent" modifier="private#static">
+    <method methodName="createIntent" modifier="private#static" returnClassName="intent">
 
-        <methodParam classVarName="context" valueName="context"/>
+        <methodParam classVarName="context" valueName="context" />
         <body>
-            return new Intent(context,  ${name}Activity.class);
+            return new Intent(context, ${name}Activity.class);
         </body>
     </method>
-    <method returnClassName="intent" methodName="createIntent1" modifier="static">
+    <method methodName="createIntent1" modifier="static" returnClassName="intent">
 
-        <methodParam classVarName="context" valueName="context"/>
+        <methodParam classVarName="context" valueName="context" />
         <body>
-            return new Intent(context,  ${name}Activity.class);
+            return new Intent(context, ${name}Activity.class);
         </body>
     </method>
-    <method returnClassName="intent" methodName="createIntent2" modifier="abstract">
-    </method>
+    <method methodName="createIntent2" modifier="abstract" returnClassName="intent"></method>
 
-    <method returnClassName="intent" methodName="createIntent3" modifier="private#static#final#synchronized">
-        <methodParam classVarName="context" valueName="context"/>
+    <method methodName="createIntent3" modifier="private#static#final#synchronized"
+        returnClassName="intent">
+        <methodParam classVarName="context" valueName="context" />
         <body>
-            return new Intent(context,  ${name}Activity.class);
+            return new Intent(context, ${name}Activity.class);
         </body>
     </method>
+
+    <method methodName="initView" modifier="private" returnClassName="void"></method>
+
+    <method methodName="initData" modifier="private" returnClassName="void">
+        <note>
+            sadfsdfsdafasdfasdfdafd\nadsfasdf
+        </note>
+        <body></body>
+    </method>
+
+    <classMaker classVarName="fragment" isInner="true" modifier="private#static">
+        <extends classVarName="baseFragment" />
+        <implements classVarName="presenterGetInterface" />
+        <note>innerClasss\nadsfasdf</note>
+
+        <property classVarName="presenter" valueName="presenter">
+            <anno classVarName="inject" />
+        </property>
+        <property classVarName="presenter" modifier="public" valueName="presenter1"></property>
+        <property classVarName="presenter" modifier="protected" valueName="presenter2"></property>
+
+        <property classVarName="presenter" modifier="private" valueName="presenter3"></property>
+        <property classVarName="presenter" modifier="private#volatile" valueName="presenter4">
+            <note>
+                sadfsdfs\ndafasdfasdfdafd\nadsfasdf
+            </note>
+        </property>
+        <property classVarName="string" modifier="public#static#final" valueName="CONSTANT">
+            <body>
+                "constan_value"
+            </body>
+        </property>
+
+        <property classVarName="atomicInteger" modifier="private" valueName="atomicInteger">
+            <body>
+                new AtomicInteger(1)
+            </body>
+
+        </property>
+
+        <method methodName="onCreateView" modifier="public" returnClassName="void">
+            <anno classVarName="override" />
+
+            <methodParam classVarName="bundle" valueName="savedInstanceState" />
+
+            <include classVarName="R" />
+            <body>
+                setContentView(R.layout.${_-name}_fragment);\n
+                super.onCreate(savedInstanceState);\n
+
+            </body>
+        </method>
+
+        <method methodName="inject" modifier="public" returnClassName="void">
+            <anno classVarName="override" />
+
+            <methodParam classVarName="appComponent" valueName="appComponent" />
+
+            <include classVarName="dagger" />
+            <include classVarName="module" />
+            <include classVarName="component" />
+            <body>
+                ${name}Component homeComponent = Dagger${name}Component.builder()\n
+                .appComponent(appComponent)\n
+                .${&lt;name}Module(new ${name}Module(this))\n
+                .build();\n
+                homeComponent.inject${type}(this);\n
+                homeComponent.injectPresenter(presenter);
+            </body>
+        </method>
+        <method methodName="createIntent" modifier="private#static" returnClassName="intent">
+
+            <methodParam classVarName="context" valueName="context" />
+            <body>
+                return new Intent(context, ${name}Activity.class);
+            </body>
+        </method>
+        <method methodName="createIntent1" modifier="static" returnClassName="intent">
+
+            <methodParam classVarName="context" valueName="context" />
+            <body>
+                return new Intent(context, ${name}Activity.class);
+            </body>
+        </method>
+        <method methodName="createIntent2" modifier="abstract" returnClassName="intent"></method>
+
+        <method methodName="createIntent3" modifier="private#static#final#synchronized"
+            returnClassName="intent">
+            <methodParam classVarName="context" valueName="context" />
+            <body>
+                return new Intent(context, ${name}Activity.class);
+            </body>
+        </method>
+
+        <method methodName="initView" modifier="private" returnClassName="void"></method>
+
+        <method methodName="initData" modifier="private" returnClassName="void">
+            <note>
+                sadfsdfsdafasdfasdfdafd\nadsfasdf
+            </note>
+            <body></body>
+        </method>
+    </classMaker>
 </classMaker>

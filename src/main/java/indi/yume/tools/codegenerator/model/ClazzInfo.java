@@ -14,6 +14,7 @@ public class ClazzInfo extends BaseInfo {
     protected String packageName;
     protected String clazzName;
     protected List<ClazzInfo> genericClazzList = new ArrayList<>();
+    protected String note;
 
     public ClazzInfo(){
 
@@ -35,6 +36,14 @@ public class ClazzInfo extends BaseInfo {
         this.packageName = packageName;
         this.clazzName = clazzName;
         this.genericClazzList.add(genericClazz);
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public Type getType() {
@@ -93,6 +102,15 @@ public class ClazzInfo extends BaseInfo {
 
     public String toString(NewLine newline){
         StringBuilder clazz = new StringBuilder(getModifierInfo() + type.get() + clazzName);
+        if (note != null && !note.isEmpty()) {
+            note = note.replace("\\n", "\n");
+            String[] ss = note.split("\n");
+            clazz.append(newline.getPrefix() + "/**\n");
+            for (int i = 0; i < ss.length; i++) {
+                clazz.append(newline.getPrefix() + "* " + ss[i]+"\n");
+            }
+            clazz.append(newline.getPrefix() + "*/\n");
+        }
         if(genericClazzList.size() != 0) {
             clazz.append("<");
             for (ClazzInfo ci : genericClazzList)

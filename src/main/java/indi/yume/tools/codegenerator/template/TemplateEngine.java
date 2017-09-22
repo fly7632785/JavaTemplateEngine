@@ -43,7 +43,7 @@ public class TemplateEngine {
     }
 
     private ClazzGenerator analysisClazzMaker(Element classMakerElement) throws Exception {
-        if(!ClassMakerKey.KEY.toLowerCase().trim().equals(classMakerElement.tag().getName()))
+        if (!ClassMakerKey.KEY.toLowerCase().trim().equals(classMakerElement.tag().getName()))
             throw new Exception("analysisClazzMaker has error, is not a ClassMaker: \n" + classMakerElement.toString());
 
         ClazzInfo baseClazzInfo = getBaseClass(classMakerElement);
@@ -53,11 +53,11 @@ public class TemplateEngine {
         getExtend(clazzGenerator, classMakerElement);
         getImplement(clazzGenerator, classMakerElement);
 
-        for(AnnotationInfo anno : getAnno(classMakerElement))
+        for (AnnotationInfo anno : getAnno(classMakerElement))
             clazzGenerator.addAnnotation(anno);
-        if(classMakerElement.hasAttr(ClassMakerKey.MODIFIER))
+        if (classMakerElement.hasAttr(ClassMakerKey.MODIFIER))
             baseClazzInfo.
-                    setModifierInfo(new ModifierInfo(  ModifierUtil
+                    setModifierInfo(new ModifierInfo(ModifierUtil
                             .analysisModifier(
                                     varStringEngine.analysisString(
                                             classMakerElement.attr(ClassMakerKey.MODIFIER)))));
@@ -66,14 +66,17 @@ public class TemplateEngine {
         getMethod(clazzGenerator, classMakerElement);
 
         Elements innerClazz = getNodesInChildren(classMakerElement, ClassMakerKey.KEY);
-        for(Element inner : innerClazz)
+        for (Element inner : innerClazz)
             clazzGenerator.addInnerClazz(analysisClazzMaker(inner));
-
+        Element note = getNodesInChildren(classMakerElement, ClassMakerKey.NOTE.KEY).first();
+        if (note != null && !note.text().isEmpty()) {
+            baseClazzInfo.setNote(note.text());
+        }
         return clazzGenerator;
     }
 
     private ClazzInfo getBaseClass(Element classMaker) throws Exception {
-        if(classMaker.hasAttr(ClassMakerKey.CLASS_VAR_NAME_ATTR))
+        if (classMaker.hasAttr(ClassMakerKey.CLASS_VAR_NAME_ATTR))
             return configEngine.getClazzInfoInClazzInterface(
                     varStringEngine.analysisString(
                             classMaker.attr(ClassMakerKey.CLASS_VAR_NAME_ATTR)));
@@ -87,7 +90,7 @@ public class TemplateEngine {
                 varStringEngine.analysisString(
                         classMaker.attr(ClassMakerKey.CLASS_NAME)));
 
-        if(classMaker.hasAttr(ClassMakerKey.TYPE)) {
+        if (classMaker.hasAttr(ClassMakerKey.TYPE)) {
             String type = varStringEngine.analysisString(
                     classMaker.attr(ClassMakerKey.TYPE));
             switch (type) {
@@ -103,9 +106,9 @@ public class TemplateEngine {
             }
         }
 
-        if(classMaker.hasAttr(ClassMakerKey.MODIFIER))
+        if (classMaker.hasAttr(ClassMakerKey.MODIFIER))
             baseClazzInfo.
-                    setModifierInfo(new ModifierInfo( ModifierUtil
+                    setModifierInfo(new ModifierInfo(ModifierUtil
                             .analysisModifier(
                                     varStringEngine.analysisString(
                                             classMaker.attr(ClassMakerKey.MODIFIER)))));
@@ -114,17 +117,23 @@ public class TemplateEngine {
 
     private void getNote(ClazzGenerator classGenerator, Element classMaker) throws Exception {
         Element note = getNodesInChildren(classMaker, ClassMakerKey.NOTE.KEY).first();
-        if(note != null){
+        if (note != null) {
             String noteString = varStringEngine.analysisString(note.text());
-            noteString = StringContentEngine.generateString(" * ", "    ", noteString);
-            noteString = "/**\n" + noteString + "\n */";
-            classGenerator.setNote(noteString);
+            noteString = noteString.replace("\\n", "\n");
+            StringBuilder stringBuilder = new StringBuilder();
+            String[] ss = noteString.split("\n");
+            stringBuilder.append("/**\n");
+            for (int i = 0; i < ss.length; i++) {
+                stringBuilder.append("* " + ss[i]+"\n");
+            }
+            stringBuilder.append( "*/\n");
+            classGenerator.setNote(stringBuilder.toString());
         }
     }
 
-    private void getExtend(ClazzGenerator clazzGenerator, Element classMaker){
+    private void getExtend(ClazzGenerator clazzGenerator, Element classMaker) {
         Element extendEle = getNodesInChildren(classMaker, ClassMakerKey.EXTENDS.KEY).first();
-        if(extendEle != null){
+        if (extendEle != null) {
             try {
                 clazzGenerator.setExtendsClazzInfo(
                         configEngine.getClazzInfoInClazz(
@@ -136,10 +145,10 @@ public class TemplateEngine {
         }
     }
 
-    private void getImplement(ClazzGenerator clazzGenerator, Element classMaker){
+    private void getImplement(ClazzGenerator clazzGenerator, Element classMaker) {
         Element interfaceEle = getNodesInChildren(classMaker, ClassMakerKey.IMPLEMENTS.KEY).first();
-        if(interfaceEle != null){
-            if(interfaceEle.hasAttr(ClassMakerKey.IMPLEMENTS.NAME_ATTR))
+        if (interfaceEle != null) {
+            if (interfaceEle.hasAttr(ClassMakerKey.IMPLEMENTS.NAME_ATTR))
                 try {
                     clazzGenerator.addInterface(
                             configEngine.getClazzInfoInInterface(
@@ -150,7 +159,7 @@ public class TemplateEngine {
                 }
 
             Elements itemList = getNodesInChildren(interfaceEle, ClassMakerKey.IMPLEMENTS.ITEM.KEY);
-            for(Element itemEle : itemList)
+            for (Element itemEle : itemList)
                 try {
                     clazzGenerator.addInterface(
                             configEngine.getClazzInfoInInterface(
@@ -164,27 +173,31 @@ public class TemplateEngine {
 
     private void getProperty(ClazzGenerator clazzGenerator, Element classMaker) throws Exception {
         Elements propertyList = getNodesInChildren(classMaker, ClassMakerKey.PROPERTY.KEY);
-        for(Element propertyEle : propertyList){
+        for (Element propertyEle : propertyList) {
             ClazzInfo clazzInfo = configEngine.getClazzInfoInClazzInterface(
                     varStringEngine.analysisString(
                             propertyEle.attr(ClassMakerKey.PROPERTY.CLASS_VAR_NAME_ATTR)));
             String varName = varStringEngine.analysisString(
                     propertyEle.attr(ClassMakerKey.PROPERTY.VALUE_NAME_ATTR));
-            if(!propertyEle.hasAttr(ClassMakerKey.PROPERTY.VALUE_NAME_ATTR))
+            if (!propertyEle.hasAttr(ClassMakerKey.PROPERTY.VALUE_NAME_ATTR))
                 throw new Exception("Property must have " + ClassMakerKey.PROPERTY.VALUE_NAME_ATTR);
 
             PropertyInfo propertyInfo = new PropertyInfo(clazzInfo, varName);
 
-            for(AnnotationInfo anno : getAnno(propertyEle))
+            for (AnnotationInfo anno : getAnno(propertyEle))
                 propertyInfo.addAnnotation(anno);
-            if(propertyEle.hasAttr(ClassMakerKey.PROPERTY.MODIFIER_ATTR)) {
+            if (propertyEle.hasAttr(ClassMakerKey.PROPERTY.MODIFIER_ATTR)) {
                 String modifier = varStringEngine.analysisString(
                         propertyEle.attr(ClassMakerKey.PROPERTY.MODIFIER_ATTR));
                 propertyInfo.getModifier().setModifier(ModifierUtil.analysisModifier(modifier));
             }
             final Element body = getNodesInChildren(propertyEle, ClassMakerKey.PROPERTY.BODY).first();
-            if(body!=null && !body.text().isEmpty()) {
+            if (body != null && !body.text().isEmpty()) {
                 propertyInfo.setBody(body.text());
+            }
+            Element note = getNodesInChildren(propertyEle, ClassMakerKey.PROPERTY.NOTE.KEY).first();
+            if (note != null && !note.text().isEmpty()) {
+                propertyInfo.setNote(note.text());
             }
             clazzGenerator.addProperty(propertyInfo);
         }
@@ -193,9 +206,9 @@ public class TemplateEngine {
     private void getMethod(ClazzGenerator clazzGenerator, Element classMaker) throws Exception {
         Elements methodList = getNodesInChildren(classMaker, ClassMakerKey.METHOD.KEY);
 
-        for(Element method : methodList){
+        for (Element method : methodList) {
             ClazzInfo returnClazz = null;
-            if(method.hasAttr(ClassMakerKey.METHOD.RETURN_CLASS_NAME_ATTR))
+            if (method.hasAttr(ClassMakerKey.METHOD.RETURN_CLASS_NAME_ATTR))
                 returnClazz = configEngine.getClazzInfoInClazzInterface(
                         varStringEngine.analysisString(
                                 method.attr(ClassMakerKey.METHOD.RETURN_CLASS_NAME_ATTR)));
@@ -204,7 +217,7 @@ public class TemplateEngine {
 
             List<MethodInfo.ParamInfo> paramList = new ArrayList<>();
             Elements paramEleList = getNodesInChildren(method, ClassMakerKey.METHOD.PARAM.KEY);
-            for(Element paramEle : paramEleList){
+            for (Element paramEle : paramEleList) {
                 MethodInfo.ParamInfo paramInfo = new MethodInfo.ParamInfo(
                         configEngine.getClazzInfoInClazzInterface(
                                 varStringEngine.analysisString(
@@ -215,39 +228,43 @@ public class TemplateEngine {
                 paramList.add(paramInfo);
             }
 
+
             final Element body = getNodesInChildren(method, ClassMakerKey.METHOD.BODY.KEY).first();
             MethodInfo methodInfo = new MethodInfo(body == null ? Type.INTERFACE : Type.CLASS,
                     returnClazz,
                     methodName,
                     paramList.toArray(new MethodInfo.ParamInfo[paramList.size()]));
-
+            Element note = getNodesInChildren(method, ClassMakerKey.METHOD.NOTE.KEY).first();
+            if (note != null && !note.text().isEmpty()) {
+                methodInfo.setNote(note.text());
+            }
             Elements includeList = getNodesInChildren(method, ClassMakerKey.METHOD.INCLUDE.KEY);
             List<ClazzInfo> inClazzList = new ArrayList<>();
-            for(Element includeEle : includeList)
+            for (Element includeEle : includeList)
                 inClazzList.add(configEngine.getClazzInfoInClazzInterface(
                         varStringEngine.analysisString(
                                 includeEle.attr(ClassMakerKey.METHOD.INCLUDE.CLASS_VAR_NAME_ATTR))));
             methodInfo.setMethodBodyGenerator(new MethodBodyGenerator() {
-                @Override
-                public String generatorMethodBody(String tab) {
-                    String bodyString = null;
-                    try {
-                        bodyString = body != null ? body.text() : "";
-                        bodyString = bodyString.replace("\\n", "\n");
-                        bodyString = varStringEngine.analysisString(bodyString);
-                        bodyString = StringContentEngine.generateString("", tab, bodyString);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    return bodyString;
-                }
-            },
-            inClazzList.toArray(new ClazzInfo[inClazzList.size()]));
+                                                  @Override
+                                                  public String generatorMethodBody(String tab) {
+                                                      String bodyString = null;
+                                                      try {
+                                                          bodyString = body != null ? body.text() : "";
+                                                          bodyString = bodyString.replace("\\n", "\n");
+                                                          bodyString = varStringEngine.analysisString(bodyString);
+                                                          bodyString = StringContentEngine.generateString("", tab, bodyString);
+                                                      } catch (Exception e) {
+                                                          e.printStackTrace();
+                                                      }
+                                                      return bodyString;
+                                                  }
+                                              },
+                    inClazzList.toArray(new ClazzInfo[inClazzList.size()]));
 
-            for(AnnotationInfo anno : getAnno(method))
-                    methodInfo.addAnnotation(anno);
+            for (AnnotationInfo anno : getAnno(method))
+                methodInfo.addAnnotation(anno);
 
-            if(method.hasAttr(ClassMakerKey.METHOD.MODIFIER_ATTR)) {
+            if (method.hasAttr(ClassMakerKey.METHOD.MODIFIER_ATTR)) {
                 String modifier = varStringEngine.analysisString(
                         method.attr(ClassMakerKey.METHOD.MODIFIER_ATTR));
                 methodInfo.setModifierInfo(new ModifierInfo(ModifierUtil.analysisModifier(modifier)));
@@ -260,25 +277,25 @@ public class TemplateEngine {
         List<AnnotationInfo> list = new ArrayList<>();
 
         Elements annoList = getNodesInChildren(ele, ClassMakerKey.ANNO.KEY);
-        for(Element anno : annoList){
-            if(!anno.hasAttr(ClassMakerKey.ANNO.CLASS_VAR_NAME_ATTR))
+        for (Element anno : annoList) {
+            if (!anno.hasAttr(ClassMakerKey.ANNO.CLASS_VAR_NAME_ATTR))
                 throw new Exception("Annotation must have " + ClassMakerKey.ANNO.CLASS_VAR_NAME_ATTR);
             AnnotationInfo annotationInfo = configEngine.getAnnotationInfo(
                     varStringEngine.analysisString(
                             anno.attr(ClassMakerKey.ANNO.CLASS_VAR_NAME_ATTR)));
 
             Elements paramList = getNodesInChildren(anno, ClassMakerKey.ANNO.PARAMS.KEY);
-            for(Element param : paramList){
+            for (Element param : paramList) {
                 String key = varStringEngine.analysisString(
                         param.attr(ClassMakerKey.ANNO.PARAMS.KEY_ATTR));
 
-                if(param.hasAttr(ClassMakerKey.ANNO.PARAMS.VALUE_ATTR)){
+                if (param.hasAttr(ClassMakerKey.ANNO.PARAMS.VALUE_ATTR)) {
                     annotationInfo.addValueParam(
                             key,
                             varStringEngine.analysisString(
                                     param.attr(ClassMakerKey.ANNO.PARAMS.VALUE_ATTR)));
                     continue;
-                } else if(param.hasAttr(ClassMakerKey.ANNO.PARAMS.CLASS_VALUE_ATTR)){
+                } else if (param.hasAttr(ClassMakerKey.ANNO.PARAMS.CLASS_VALUE_ATTR)) {
                     annotationInfo.addClazzParam(key,
                             configEngine.getClazzInfoInClazzInterface(
                                     varStringEngine.analysisString(
@@ -288,11 +305,11 @@ public class TemplateEngine {
 
                 Elements valueParamList = getNodesInChildren(param, ClassMakerKey.ANNO.PARAMS.VALUE.KEY);
                 List<String> stringValueList = new ArrayList<>();
-                for(Element valueParam : valueParamList)
+                for (Element valueParam : valueParamList)
                     stringValueList.add(
                             varStringEngine.analysisString(
                                     valueParam.text()));
-                if(valueParamList.size() != 0) {
+                if (valueParamList.size() != 0) {
                     annotationInfo.addValueParam(key,
                             stringValueList.toArray(new String[stringValueList.size()]));
                     continue;
@@ -300,11 +317,11 @@ public class TemplateEngine {
 
                 Elements clazzParamList = getNodesInChildren(param, ClassMakerKey.ANNO.PARAMS.CLASS_VALUE.KEY);
                 List<ClazzInfo> clazzValueList = new ArrayList<>();
-                for(Element valueParam : clazzParamList)
+                for (Element valueParam : clazzParamList)
                     clazzValueList.add(
                             configEngine.getClazzInfoInClazzInterface(
                                     varStringEngine.analysisString(valueParam.text())));
-                if(clazzParamList.size() != 0) {
+                if (clazzParamList.size() != 0) {
                     annotationInfo.addClazzParam(key,
                             clazzValueList.toArray(new ClazzInfo[clazzValueList.size()]));
                     continue;
@@ -319,14 +336,14 @@ public class TemplateEngine {
         return list;
     }
 
-    private Elements getNodesInChildren(Element parentEle, String tag){
+    private Elements getNodesInChildren(Element parentEle, String tag) {
         Elements elements = new Elements();
-        if(tag == null || "".equals(tag))
+        if (tag == null || "".equals(tag))
             return elements;
 
         tag = tag.toLowerCase().trim();
-        for(Element child : parentEle.children())
-            if(tag.equals(child.tagName()))
+        for (Element child : parentEle.children())
+            if (tag.equals(child.tagName()))
                 elements.add(child);
 
         return elements;
