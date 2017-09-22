@@ -11,6 +11,7 @@ Simple Java code TemplateEngine, use xml.
 ## Fork2.0.5后更新：
 1.修正modifier支持
 2.修正abstract支持
+3.增加field的值
 
 ## 使用方法
 

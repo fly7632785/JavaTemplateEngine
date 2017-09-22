@@ -11,6 +11,7 @@ public class PropertyInfo extends BaseInfo {
     private ModifierInfo modifier = new ModifierInfo(0);
     private ClazzInfo clazzInfo;
     private String name;
+    private String body;
 
     public PropertyInfo(ClazzInfo clazzInfo, String name) {
         this.clazzInfo = clazzInfo;
@@ -23,15 +24,23 @@ public class PropertyInfo extends BaseInfo {
         this.name = name;
     }
 
-    public String toString(NewLine newline){
+    public String toString(NewLine newline) {
         String mod = modifier.toString();
-        if(!"".equals(mod))
+        if (!"".equals(mod))
             mod += " ";
         return generatorAnnotation(newline)
                 + newline.getPrefix()
                 + mod
                 + clazzInfo.toString()
-                + " " + name;
+                + " " + name + " = " + body;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 
     public ModifierInfo getModifier() {

@@ -22,9 +22,24 @@
               classVarName="presenter"
               modifier="private">
     </property>
-    <property valueName="presenter3"
+    <property valueName="presenter4"
               classVarName="presenter"
               modifier="private#volatile">
+    </property>
+    <property valueName="CONSTANT"
+                classVarName="string"
+              modifier="public#static#final">
+        <body>
+            "constan_value"
+        </body>
+    </property>
+
+    <property valueName="atomicInteger"
+                classVarName="atomicInteger"
+              modifier="private">
+        <body>
+            new AtomicInteger(1)
+        </body>
     </property>
 
     <method returnClassName="void" methodName="onCreateView" modifier="public">

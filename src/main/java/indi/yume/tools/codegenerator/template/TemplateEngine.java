@@ -182,6 +182,10 @@ public class TemplateEngine {
                         propertyEle.attr(ClassMakerKey.PROPERTY.MODIFIER_ATTR));
                 propertyInfo.getModifier().setModifier(ModifierUtil.analysisModifier(modifier));
             }
+            final Element body = getNodesInChildren(propertyEle, ClassMakerKey.PROPERTY.BODY).first();
+            if(body!=null && !body.text().isEmpty()) {
+                propertyInfo.setBody(body.text());
+            }
             clazzGenerator.addProperty(propertyInfo);
         }
     }
