@@ -73,64 +73,203 @@ String content = templateEngine.render();
 
 ***classVarName 全为配置文件中 name属性的设置***
 
+###### Example:
+
 ```xml
-<!-- classMaker为根节点 -->
-<!-- 需要设置此生成类的基本属性，如所在包、类名等，设置有两种方式：-->
-<!-- 1、通过设定classVarName属性，调用配置文件中描述的类属性来设置此类的属性 -->
-<!-- 2、通过type、packageName、className和modifier三个Attr属性设置 -->
-<classMaker classVarName="fragment">
+package com.happy_bears.mybears.android.ui.fragment;
 
-    <!-- extends 设置父类 -->
-    <extends classVarName="baseFragment"/>
-    <!-- implements 设置继承的接口，可通过Attr属性设置，也可使用<item>标签设置（两种可混用） -->
-    <implements classVarName="presenterGetInterface">
-      <item classVarName="presenterGetInterface"/>
-    </implements>
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 
-    <!-- note 设置注释，会自动添加/** 和 */ 符号 -->
+import com.happy_bears.mybears.android.R;
+import com.happy_bears.mybears.android.ui.AppComponent;
+import com.happy_bears.mybears.android.ui.component.A09_1_TestTestComponent;
+import com.happy_bears.mybears.android.ui.component.DaggerA09_1_TestTestComponent;
+import com.happy_bears.mybears.android.ui.module.A09_1_TestTestModule;
+import com.happy_bears.mybears.android.ui.presenter.A09_1_TestTestPresenter;
+
+import java.util.concurrent.atomic.AtomicInteger.AtomicInteger;
+
+import javax.inject.Inject;
+/**
+* Created by DaggerGenerator on 2017/09/22.
+* test
+*/
+private static class A09_1_TestTestFragment extends BaseFragment implements A09_1_TestTestPresenter.A09_1_TestTestListener{
+    @Inject
+    A09_1_TestTestPresenter presenter;
+    public A09_1_TestTestPresenter presenter1;
+    protected A09_1_TestTestPresenter presenter2;
+    private A09_1_TestTestPresenter presenter3;
+    /**
+    * sadfsdfs
+    * dafasdfasdfdafd
+    * adsfasdf
+    */
+    private volatile A09_1_TestTestPresenter presenter4;
+    public static final String CONSTANT = "constan_value";
+    private AtomicInteger atomicInteger = new AtomicInteger(1);
+
+    @Override
+    public void onCreateView(Bundle savedInstanceState){
+        setContentView(R.layout.a09_1_test_test_fragment);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void inject(AppComponent appComponent){
+        A09_1_TestTestComponent homeComponent = DaggerA09_1_TestTestComponent.builder()
+            .appComponent(appComponent)
+            .a09_1_TestTestModule(new A09_1_TestTestModule(this))
+            .build();
+        homeComponent.injectActivity(this);
+        homeComponent.injectPresenter(presenter);
+    }
+
+    private static Intent createIntent(Context context){
+        return new Intent(context, A09_1_TestTestActivity.class);
+    }
+
+    static Intent createIntent1(Context context){
+        return new Intent(context, A09_1_TestTestActivity.class);
+    }
+
+    abstract Intent createIntent2();
+
+    private static final synchronized Intent createIntent3(Context context){
+        return new Intent(context, A09_1_TestTestActivity.class);
+    }
+
+    private void initView();
+
+    private void initData(){
+        
+    }
+
+    /**
+    * innerClasss
+    * adsfasdf
+    */
+    private static class A09_1_TestTestFragment extends BaseFragment implements A09_1_TestTestPresenter.A09_1_TestTestListener{
+
+        private void initData(){
+            
+        }
+
+    }
+}
+```
+
+```
+<classMaker classVarName="fragment" modifier="abstract">
+    <extends classVarName="baseFragment" />
+    <implements classVarName="presenterGetInterface" />
+
     <note>${note}</note>
 
-    <!-- property 添加一个变量声明 -->
-    <!-- valueName 变量名 -->
-    <!-- classVarName 引用类 -->
-    <!-- modifier（可选） 修饰符 -->
-    <property valueName="presenter"
-              classVarName="presenter"
-              modifier="private">
-        <!-- anno 声明此变量的注解，可对<property>、<method>、<classMaker>等标签中使用 -->
-        <anno classVarName="inject"/>
+    <property classVarName="presenter" valueName="presenter">
+        <anno classVarName="inject" />
+    </property>
+    <property classVarName="presenter" modifier="public" valueName="presenter1"></property>
+    <property classVarName="presenter" modifier="protected" valueName="presenter2"></property>
+
+    <property classVarName="presenter" modifier="private" valueName="presenter3"></property>
+    <property classVarName="presenter" modifier="private#volatile" valueName="presenter4">
+        <note>
+            sadfsdfs\ndafasdfasdfdafd\nadsfasdf
+        </note>
+    </property>
+    <property classVarName="string" modifier="public#static#final" valueName="CONSTANT">
+        <body>
+            "constan_value"
+        </body>
     </property>
 
-    <!-- method 添加一个方法 -->
-    <!-- returnClassName 返回类型（不设置时则没有返回值，如构造函数） -->
-    <!-- methodName 方法名 -->
-    <!-- modifier（可选） 修饰符 -->
-    <method returnClassName="view" methodName="onCreateView">
-        <anno classVarName="override"/>
-
-        <!-- methodParam 添加一个方法参数 -->
-        <!-- classVarName 引用类 -->
-        <!-- valueName 变量名 -->
-        <methodParam classVarName="layoutInflater" valueName="inflater"/>
-        <methodParam classVarName="viewGroup" valueName="container"/>
-        <methodParam classVarName="bundle" valueName="savedInstanceState"/>
-
-        <!-- include 额外导入的包 -->
-        <include classVarName="butterknife"/>
-        <include classVarName="R"/>
-
-        <!-- body 方法体 -->
-        <!-- 此标签内文本只会以手动\n符号计算换行符 -->
-        <!-- 通过\n符号换行后会通过自动格式化引擎进行重新格式化 -->
+    <property classVarName="atomicInteger" modifier="private" valueName="atomicInteger">
         <body>
-            View view = inflater.inflate(R.layout.${_-name}_fragment, container, false);\n
-            ButterKnife.bind(this, view);\n
-            \n
-            return view;
+            new AtomicInteger(1)
+        </body>
+
+    </property>
+
+    <method methodName="onCreateView" modifier="public" returnClassName="void">
+        <anno classVarName="override" />
+
+        <methodParam classVarName="bundle" valueName="savedInstanceState" />
+
+        <include classVarName="R" />
+        <body>
+            setContentView(R.layout.${_-name}_fragment);\n
+            super.onCreate(savedInstanceState);\n
+
         </body>
     </method>
+
+    <method methodName="inject" modifier="public" returnClassName="void">
+        <anno classVarName="override" />
+
+        <methodParam classVarName="appComponent" valueName="appComponent" />
+
+        <include classVarName="dagger" />
+        <include classVarName="module" />
+        <include classVarName="component" />
+        <body>
+            ${name}Component homeComponent = Dagger${name}Component.builder()\n
+            .appComponent(appComponent)\n
+            .${&lt;name}Module(new ${name}Module(this))\n
+            .build();\n
+            homeComponent.inject${type}(this);\n
+            homeComponent.injectPresenter(presenter);
+        </body>
+    </method>
+    <method methodName="createIntent" modifier="private#static" returnClassName="intent">
+
+        <methodParam classVarName="context" valueName="context" />
+        <body>
+            return new Intent(context, ${name}Activity.class);
+        </body>
+    </method>
+    <method methodName="createIntent1" modifier="static" returnClassName="intent">
+
+        <methodParam classVarName="context" valueName="context" />
+        <body>
+            return new Intent(context, ${name}Activity.class);
+        </body>
+    </method>
+    <method methodName="createIntent2" modifier="abstract" returnClassName="intent"></method>
+
+    <method methodName="createIntent3" modifier="private#static#final#synchronized"
+        returnClassName="intent">
+        <methodParam classVarName="context" valueName="context" />
+        <body>
+            return new Intent(context, ${name}Activity.class);
+        </body>
+    </method>
+
+    <method methodName="initView" modifier="private" returnClassName="void"></method>
+
+    <method methodName="initData" modifier="private" returnClassName="void">
+        <note>
+            sadfsdfsdafasdfasdfdafd\nadsfasdf
+        </note>
+        <body></body>
+    </method>
+
+    <classMaker classVarName="fragment" isInner="true" modifier="private#static">
+        <extends classVarName="baseFragment" />
+        <implements classVarName="presenterGetInterface" />
+        <note>innerClasss\nadsfasdf</note>
+        <method methodName="initData" modifier="private" returnClassName="void">
+            <note>
+                sadfsdfsdafasdfasdfdafd\nadsfasdf
+            </note>
+            <body></body>
+        </method>
+    </classMaker>
 </classMaker>
 ```
+
 
 ## 单独使用
 
